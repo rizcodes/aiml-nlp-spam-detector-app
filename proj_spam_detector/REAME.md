@@ -33,6 +33,3 @@ Precision-Recall-F1_Score:
    macro avg       0.95      0.93      0.94       836
 weighted avg       0.97      0.97      0.97       836
 ```
-
-### Deploy the containerized application
-steps - TBD

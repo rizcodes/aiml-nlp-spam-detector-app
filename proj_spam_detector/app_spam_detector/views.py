@@ -6,6 +6,7 @@ from rest_framework.parsers import JSONParser
 from rest_framework.renderers import JSONRenderer
 from rest_framework.response import Response
 
+from app_spam_detector.core import MessageDetection
 
 # Create your views here.
 class CheckSpamView(APIView):
@@ -18,11 +19,17 @@ class CheckSpamView(APIView):
             messages = data.get('input', [])
             if not len(messages):
                 response = {'error': 'No input messages received provided.'}
+                status_code = 400
             else:
-                response = {
-                    'message': 'ham'
-                }
+                output = []
+                for msg in messages:
+                    message = MessageDetection(msg)
+                    category = message.classify()
+                    output.append(category)
+                response = {'input': messages, 'output': output}
+                status_code = 200
         except JSONDecodeError:
             response = {'error': 'No payload.'}
+            status_code = 400
 
-        return Response(response, 400)
+        return Response(response, status_code)
