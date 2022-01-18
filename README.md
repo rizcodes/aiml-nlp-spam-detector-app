@@ -34,5 +34,21 @@ Precision-Recall-F1_Score:
 weighted avg       0.97      0.97      0.97       836
 ```
 
-### Deploy the containerized application
-steps - TBD
+### Kubernetes - Deploy the containerized application
+#### Creating K8s Pod and Services
++ Pod : k8s-pod.yaml
++ Service
+  + NodePort: k8s-svc-np.yaml
+  + LoadBalancer: k8s-svc-lb.yaml
+
+#### Port Info
+```shell
+NodePort: 31111
+ContainerListeningPort: 8000
+ClusterPort: 80
+```
+
+#### Accessing API
+Kubernetes Clusters with one node must use services of type NodePort
+* Single Node Cluster _(NodePort)_ `http://<nodePublicIP>:31111/checkSpam/`
+* Multiple Node Cluster _(LoadBalancer)_ `http://<loadBalancerPublicIP>/checkSpam/`
